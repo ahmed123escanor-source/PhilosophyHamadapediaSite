@@ -5,19 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modern Philosophy - Hamadapedia</title>
     <style>
-        body { font-family: sans-serif; margin: 0; padding: 0; background-color: #f8f9fa; }
+        /* General styling for the website */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        p {
+            margin: 10px 0;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+        }
+
+        .content {
+            margin-top: 20px;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .content strong {
+            font-weight: bold;
+        }
+
         .header { background-color: #0645ad; color: white; padding: 20px; text-align: center; }
         .nav { background-color: #eaecf0; padding: 10px; }
         .nav a { margin: 0 15px; text-decoration: none; color: #0645ad; }
-        .content { max-width: 800px; margin: 20px auto; background: white; padding: 20px; border: 1px solid #ccc; }
-        h1 { color: #0645ad; }
         h2 { color: #228B22; }
         h3 { color: #DC143C; }
         ul { list-style-type: disc; margin-left: 20px; }
         .toc { background: #f9f9f9; padding: 10px; border: 1px solid #ccc; margin-bottom: 20px; }
         .toc ul { list-style: none; }
         .toc li { margin: 5px 0; }
-        img { max-width: 200px; height: auto; margin: 10px; float: right; }
         .philosopher { clear: both; margin-bottom: 20px; }
     </style>
 </head>
@@ -178,6 +213,178 @@
             <li><a href="kant.html">Immanuel Kant</a></li>
             <li><a href="nietzsche.html">Friedrich Nietzsche</a></li>
         </ul>
+
+        <!-- Add a button for creating new pages -->
+        <div style="text-align: center; margin: 20px;">
+            <button id="createPageButton" style="padding: 10px 20px; font-size: 16px;">Create New Page</button>
+        </div>
+
+        <!-- Add a form for creating new pages -->
+        <div id="createPageFormContainer" style="display: none; text-align: center; margin: 20px;">
+            <form id="createPageForm" style="max-width: 600px; margin: auto;">
+                <h2>Create a New Page</h2>
+                <label for="pageTitle">Title / Name:</label><br>
+                <input type="text" id="pageTitle" name="pageTitle" required style="width: 100%; padding: 8px; margin: 10px 0;"><br>
+
+                <label for="pageIntro">Short Introduction:</label><br>
+                <textarea id="pageIntro" name="pageIntro" rows="3" required style="width: 100%; padding: 8px; margin: 10px 0;"></textarea><br>
+
+                <label for="pageContent">Full Biography / Description:</label><br>
+                <textarea id="pageContent" name="pageContent" rows="6" required style="width: 100%; padding: 8px; margin: 10px 0;"></textarea><br>
+
+                <label for="importantDates">Important Dates (optional):</label><br>
+                <input type="text" id="importantDates" name="importantDates" style="width: 100%; padding: 8px; margin: 10px 0;"><br>
+
+                <label for="imageURL">Image URL (optional):</label><br>
+                <input type="url" id="imageURL" name="imageURL" style="width: 100%; padding: 8px; margin: 10px 0;"><br>
+
+                <button type="submit" style="padding: 10px 20px; font-size: 16px;">Submit</button>
+                <button type="button" id="cancelFormButton" style="padding: 10px 20px; font-size: 16px;">Cancel</button>
+            </form>
+        </div>
+
+        <!-- Section to display links to user-generated content -->
+        <div id="userGeneratedContent" style="margin-top: 40px; padding: 20px; background: #f1f1f1; border-top: 1px solid #ddd;">
+            <h3>Pages Created by Users</h3>
+            <ul id="userPagesList" style="list-style-type: none; padding: 0;">
+                <!-- Links to user-generated pages will be dynamically added here -->
+            </ul>
+        </div>
+
+        <script>
+            // Show the form when the 'Create New Page' button is clicked
+            document.getElementById('createPageButton').addEventListener('click', function() {
+                document.getElementById('createPageFormContainer').style.display = 'block';
+            });
+
+            // Hide the form when the 'Cancel' button is clicked
+            document.getElementById('cancelFormButton').addEventListener('click', function() {
+                document.getElementById('createPageFormContainer').style.display = 'none';
+            });
+
+            // Function to create a new page dynamically
+            document.getElementById('createPageForm').addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent form submission
+
+                // Get form data
+                const title = document.getElementById('pageTitle').value.trim();
+                const intro = document.getElementById('pageIntro').value.trim();
+                const content = document.getElementById('pageContent').value.trim();
+                const dates = document.getElementById('importantDates').value.trim();
+                const imageURL = document.getElementById('imageURL').value.trim();
+
+                // Check if a page with the same title already exists
+                if (localStorage.getItem(title)) {
+                    alert('A page with this title already exists. Please choose a different title.');
+                    return;
+                }
+
+                // Create page data
+                const pageData = {
+                    title,
+                    intro,
+                    content,
+                    dates,
+                    imageURL
+                };
+
+                // Save page data to localStorage
+                localStorage.setItem(title, JSON.stringify(pageData));
+
+                // Generate the new page
+                generatePage(title, pageData);
+
+                // Hide the form
+                document.getElementById('createPageFormContainer').style.display = 'none';
+
+                // Clear the form
+                document.getElementById('createPageForm').reset();
+
+                alert('Page created successfully!');
+            });
+
+            // Function to generate a page dynamically
+            function generatePage(title, pageData) {
+                const newWindow = window.open('', '_blank');
+                newWindow.document.write(`
+                    <!DOCTYPE html>
+                    <html lang="en">
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>${title}</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+                            h1 { text-align: center; }
+                            img { max-width: 100%; height: auto; display: block; margin: 20px auto; }
+                            .content { margin-top: 20px; }
+                        </style>
+                    </head>
+                    <body>
+                        <h1>${pageData.title}</h1>
+                        <p><strong>${pageData.intro}</strong></p>
+                        ${pageData.imageURL ? `<img src="${pageData.imageURL}" alt="${pageData.title}">` : ''}
+                        <div class="content">
+                            <p>${pageData.content}</p>
+                            ${pageData.dates ? `<p><strong>Important Dates:</strong> ${pageData.dates}</p>` : ''}
+                        </div>
+                    </body>
+                    </html>
+                `);
+                newWindow.document.close();
+            }
+
+            // Function to load a page from localStorage based on the URL
+            function loadPageFromURL() {
+                const params = new URLSearchParams(window.location.search);
+                const title = params.get('title');
+
+                if (title && localStorage.getItem(title)) {
+                    const pageData = JSON.parse(localStorage.getItem(title));
+
+                    document.body.innerHTML = `
+                        <h1>${pageData.title}</h1>
+                        <p><strong>${pageData.intro}</strong></p>
+                        ${pageData.imageURL ? `<img src="${pageData.imageURL}" alt="${pageData.title}">` : ''}
+                        <div class="content">
+                            <p>${pageData.content}</p>
+                            ${pageData.dates ? `<p><strong>Important Dates:</strong> ${pageData.dates}</p>` : ''}
+                        </div>
+                    `;
+                }
+            }
+
+            // Function to update the list of user-generated content
+            function updateUserGeneratedContent() {
+                const userPagesList = document.getElementById('userPagesList');
+                userPagesList.innerHTML = ''; // Clear the list
+
+                // Iterate through all items in localStorage
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    const pageData = JSON.parse(localStorage.getItem(key));
+
+                    // Create a list item with a link to the page
+                    const listItem = document.createElement('li');
+                    const link = document.createElement('a');
+                    link.href = `?title=${encodeURIComponent(pageData.title)}`;
+                    link.textContent = pageData.title;
+                    link.style.textDecoration = 'none';
+                    link.style.color = '#007BFF';
+
+                    listItem.appendChild(link);
+                    userPagesList.appendChild(listItem);
+                }
+            }
+
+            // Update the user-generated content section on page load
+            updateUserGeneratedContent();
+
+            // Check if the page is being loaded with a specific title
+            if (window.location.search.includes('title=')) {
+                loadPageFromURL();
+            }
+        </script>
     </div>
     <footer style="text-align: center; padding: 10px; background: #f8f9fa; border-top: 1px solid #ccc;">
         <p>Sources: Information compiled from Wikipedia, Stanford Encyclopedia of Philosophy, and Encyclopædia Britannica. Images from Wikimedia Commons.</p>
