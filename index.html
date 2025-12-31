@@ -7,17 +7,23 @@
     <style>
         /* General styling for the website */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', Arial, sans-serif;
             line-height: 1.6;
-            margin: 20px;
-            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
             color: #333;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Poppins', sans-serif;
         }
 
         h1 {
             text-align: center;
-            font-size: 2.5em;
+            font-size: 3em;
             margin-bottom: 20px;
+            color: #0645ad;
         }
 
         p {
@@ -29,31 +35,138 @@
             height: auto;
             display: block;
             margin: 20px auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
 
         .content {
-            margin-top: 20px;
+            margin: 20px auto;
             padding: 20px;
             background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 1200px;
         }
 
-        .content strong {
+        .header {
+            background: linear-gradient(90deg, #0645ad, #228B22);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: center;
+            background-color: #eaecf0;
+            padding: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #0645ad;
             font-weight: bold;
+            transition: color 0.3s ease;
         }
 
-        .header { background-color: #0645ad; color: white; padding: 20px; text-align: center; }
-        .nav { background-color: #eaecf0; padding: 10px; }
-        .nav a { margin: 0 15px; text-decoration: none; color: #0645ad; }
-        h2 { color: #228B22; }
-        h3 { color: #DC143C; }
-        ul { list-style-type: disc; margin-left: 20px; }
-        .toc { background: #f9f9f9; padding: 10px; border: 1px solid #ccc; margin-bottom: 20px; }
-        .toc ul { list-style: none; }
-        .toc li { margin: 5px 0; }
-        .philosopher { clear: both; margin-bottom: 20px; }
+        .nav a:hover {
+            color: #228B22;
+        }
+
+        .toc {
+            background: #f9f9f9;
+            padding: 15px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .toc ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .toc li {
+            margin: 5px 0;
+        }
+
+        .toc a {
+            text-decoration: none;
+            color: #0645ad;
+            transition: color 0.3s ease;
+        }
+
+        .toc a:hover {
+            color: #228B22;
+        }
+
+        button {
+            background: #0645ad;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background: #228B22;
+            transform: scale(1.05);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background: #f8f9fa;
+            border-top: 1px solid #ccc;
+            margin-top: 20px;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Fade-in animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .content {
+                padding: 15px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -67,7 +180,7 @@
         <a href="#">History</a>
         <a href="#">Science</a>
     </div>
-    <div class="content">
+    <div class="content fade-in">
         <h1>Modern Philosophy</h1>
         <p>Modern philosophy is philosophy developed in the modern era and associated with modernity. It is not a specific doctrine or school, although certain assumptions are common to much of it, which helps to distinguish it from earlier philosophy.</p>
         <p>The 17th and early 20th centuries roughly mark the beginning and the end of modern philosophy. How much of the Renaissance should be included is a matter of dispute, as is whether modernity ended in the 20th century and has been replaced by postmodernity.</p>
@@ -89,7 +202,7 @@
         </div>
 
         <h2 id="renaissance">Renaissance Philosophy</h2>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Justus_Sustermans_-_Portrait_of_Galileo_Galilei%2C_1636.jpg/220px-Justus_Sustermans_-_Portrait_of_Galileo_Galilei%2C_1636.jpg" alt="Galileo Galilei">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Justus_Sustermans_-_Portrait_of_Galileo_Galilei%2C_1636.jpg" alt="Galileo Galilei">
         <p>Renaissance humanism emphasized the value of human beings and opposed dogma and scholasticism. This new interest in human activities led to the development of political science with Niccolò Machiavelli's <em>The Prince</em>. Humanists differed from Medieval scholars also because they saw the natural world as mathematically ordered and pluralistic, instead of thinking of it in terms of purposes and goals.</p>
         <p>Renaissance philosophy is perhaps best explained by two propositions made by Leonardo da Vinci: "All of our knowledge has its origins in our perceptions" and "There is no certainty where one can neither apply any of the mathematical sciences nor any of those which are based upon the mathematical sciences."</p>
         <p>In a similar way, Galileo Galilei based his scientific method on experiments but also developed mathematical methods for application to problems in physics. These two ways to conceive human knowledge formed the background for the principle of Empiricism and Rationalism respectively.</p>
@@ -386,7 +499,7 @@
             }
         </script>
     </div>
-    <footer style="text-align: center; padding: 10px; background: #f8f9fa; border-top: 1px solid #ccc;">
+    <footer>
         <p>Sources: Information compiled from Wikipedia, Stanford Encyclopedia of Philosophy, and Encyclopædia Britannica. Images from Wikimedia Commons.</p>
     </footer>
 </body>
